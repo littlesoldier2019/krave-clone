@@ -8,7 +8,7 @@ import SlideItem1 from './SlideItem1'
 import SlideItem2 from './SlideItem2'
 import SlideItem3 from './SlideItem3'
 import SlideItem4 from './SlideItem4'
-
+import './ProductSlider1.css'
 
 
 const getWidth = () => window.innerWidth
@@ -137,12 +137,9 @@ const ProductSlider1 = props => {
               return <SlideItem4 width={getWidth()} key={_slide + i} content={_slide} />
             }
           })}
-          
         </SliderContent>
-  
         <Arrow direction="left" handleClick={prevSlide} />
         <Arrow direction="right" handleClick={nextSlide} />
-  
       </div>
     )
   }
