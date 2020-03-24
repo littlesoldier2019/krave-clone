@@ -38,7 +38,7 @@ const SlideItem0 = ({ content, width }) => (
           font-weight: bold;
           `}
         >
-          Great Barrier Relief
+          {content.title}
         </h2>
         <p 
           css={css`
@@ -46,7 +46,7 @@ const SlideItem0 = ({ content, width }) => (
           font-size: 16px;
           `}>
           <span ></span>
-          <span >$28.00</span>
+          <span >{content.price}</span>
         </p>
           <a 
           css={css`
@@ -66,7 +66,7 @@ const SlideItem0 = ({ content, width }) => (
           text-transform: uppercase;
           letter-spacing: 1px;
           `}
-          href="/products/great-barrier-relief" target="_self">View Product</a>
+          href="/products/great-barrier-relief" target="_self">{content.button}</a>
       </div>
     </div>
   </div>

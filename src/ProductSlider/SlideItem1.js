@@ -15,16 +15,16 @@ const SlideItem1 = ({ content, width }) => (
         white-space: normal;
         text-align: left;
         `}>
-        <h5><b>What it is</b></h5>
-        <p>Great Barrier Relief is a skin-soothing serum that restores your damaged skin barrier while evening out your complexion. This nourishing formula offers irritated skin a reset button by using tamanu oil and other ingredients that mimic a healthy barrier to replenish what your skin lacks. </p>
+        <h5><b>{content.title1}</b></h5>
+        <p>{content.text1}</p>
         <div>&nbsp;</div>
         <div
           css={css`
           text-align: center;
           `}>
-          <iframe width="320" height="180" src="https://www.youtube.com/embed/q_HcZm9OjJ8" frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen=""></iframe>
+          <iframe width="320" height="180" src={content.video} frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen=""></iframe>
         </div>
-        <p>Every purchase of Great Barrier Relief helps protect the Great Barrier Reef. 2% of all sales from Great Barrier Relief will be donated to the Great Barrier Reef Foundation. To learn more about how the help protect one of the seven natural wonders of the world, click 
+        <p>{content.text2} 
           <a 
             css={css`
             color: #65cfa2;
@@ -36,7 +36,7 @@ const SlideItem1 = ({ content, width }) => (
           `}
             href="https://www.barrierreef.org" target="_blank" rel="noopener"> here</a>.</p>
         <div>&nbsp;</div>
-        <h5><b>Who needs it</b></h5>
+        <h5><b>{content.title2}</b></h5>
         <p>Someone who needs to press reset on their irritated skin. More specifically:</p>
           <ul>
            <li>who washes their face more than twice a day</li>
