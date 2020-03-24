@@ -1,0 +1,159 @@
+/** @jsx jsx */
+import React, { useState, useEffect, useRef } from 'react'
+import { css, jsx } from '@emotion/core'
+import SliderContent from './SliderContent'
+import Arrow from './Arrow'
+import SlideItem0 from './SlideItem0'
+import SlideItem1 from './SlideItem1'
+import SlideItem2 from './SlideItem2'
+import SlideItem3 from './SlideItem3'
+import SlideItem4 from './SlideItem4'
+
+
+
+const getWidth = () => window.innerWidth
+
+/**
+ * @function ProductSlider1
+ */
+const ProductSlider1 = props => {
+    const { slides } = props
+
+    const firstSlide = slides[0]
+    const secondSlide = slides[1]
+    const lastSlide = slides[slides.length - 1]
+  
+    const [state, setState] = useState({
+      activeSlide: 0,
+      translate: getWidth(),
+      transition: 0.45,
+      _slides: [lastSlide, firstSlide, secondSlide]
+    })
+  
+    const { activeSlide, translate, _slides, transition } = state
+  
+    const autoPlayRef = useRef()
+    const transitionRef = useRef()
+    const resizeRef = useRef()
+  
+    useEffect(() => {
+      autoPlayRef.current = nextSlide
+      transitionRef.current = smoothTransition
+      resizeRef.current = handleResize
+    })
+  
+    useEffect(() => {
+      const play = () => {
+        autoPlayRef.current()
+      }
+  
+      const smooth = e => {
+        if (e.target.className.includes('SliderContent')) {
+          transitionRef.current()
+        }
+      }
+  
+      const resize = () => {
+        resizeRef.current()
+      }
+  
+      const transitionEnd = window.addEventListener('transitionend', smooth)
+      const onResize = window.addEventListener('resize', resize)
+  
+      let interval = null
+  
+      if (props.autoPlay) {
+        interval = setInterval(play, props.autoPlay * 1000)
+      }
+  
+      return () => {
+        window.removeEventListener('transitionend', transitionEnd)
+        window.removeEventListener('resize', onResize)
+  
+        if (props.autoPlay) {
+          clearInterval(interval)
+        }
+      }
+    }, [])
+  
+    useEffect(() => {
+      if (transition === 0) setState({ ...state, transition: 0.45 })
+    }, [transition])
+  
+    const handleResize = () => {
+      setState({ ...state, translate: getWidth(), transition: 0 })
+    }
+  
+    const smoothTransition = () => {
+      let _slides = []
+  
+      // We're at the last slide.
+      if (activeSlide === slides.length - 1)
+        _slides = [slides[slides.length - 2], lastSlide, firstSlide]
+      // We're back at the first slide. Just reset to how it was on initial render
+      else if (activeSlide === 0) _slides = [lastSlide, firstSlide, secondSlide]
+      // Create an array of the previous last slide, and the next two slides that follow it.
+      else _slides = slides.slice(activeSlide - 1, activeSlide + 2)
+  
+      setState({
+        ...state,
+        _slides,
+        transition: 0,
+        translate: getWidth()
+      })
+    }
+  
+    const nextSlide = () =>
+      setState({
+        ...state,
+        translate: translate + getWidth(),
+        activeSlide: activeSlide === slides.length - 1 ? 0 : activeSlide + 1
+      })
+  
+    const prevSlide = () =>
+      setState({
+        ...state,
+        translate: 0,
+        activeSlide: activeSlide === 0 ? slides.length - 1 : activeSlide - 1
+      })
+  
+    return (
+      <div css={SliderCSS}>
+        <SliderContent
+          translate={translate}
+          transition={transition}
+          width={getWidth() * _slides.length}
+        >
+          {_slides.map((_slide, i) => {
+            if (_slide.item === 0) {
+              return <SlideItem0 width={getWidth()} key={_slide + i} content={_slide} />
+            } else if (_slide.item === 1) {
+              return <SlideItem1 width={getWidth()} key={_slide + i} content={_slide} />
+            } else if (_slide.item === 2) {
+              return <SlideItem2 width={getWidth()} key={_slide + i} content={_slide} />
+            } else if (_slide.item === 3) {
+              return <SlideItem3 width={getWidth()} key={_slide + i} content={_slide} />
+            } else if (_slide.item === 4) {
+              return <SlideItem4 width={getWidth()} key={_slide + i} content={_slide} />
+            }
+          })}
+          
+        </SliderContent>
+  
+        <Arrow direction="left" handleClick={prevSlide} />
+        <Arrow direction="right" handleClick={nextSlide} />
+  
+      </div>
+    )
+  }
+
+const SliderCSS = css`
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+  margin: 0 auto;
+  overflow: hidden;
+  white-space: nowrap;
+`
+
+export default ProductSlider1
